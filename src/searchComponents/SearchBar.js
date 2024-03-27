@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function Input({ onSearchSubmit }) {
+function Input({ token, onSearchSubmit }) {
   const [searchValue, setSearchValue] = useState('');
 
   const handleSubmit = (e) => {
