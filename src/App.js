@@ -167,6 +167,8 @@ function App() {
 
   return (
     <>
+      <button onClick={connectSpotify}>Connect Spotify</button>
+
       <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
 
       {searchTerm ? <Filter searchTerm={searchTerm} 
