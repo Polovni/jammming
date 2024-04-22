@@ -10,7 +10,7 @@ function App() {
   const AUTH_URL = 'https://accounts.spotify.com/authorize';
   const CLIENT_ID = '4d719dad5f594f1a90e37d494ae646b5';
   const REDIRECT_URI = 'http://localhost:3000/spotify';
-  const SCOPE = 'user-read-private user-read-email';
+  const SCOPE = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
   const STATE = 'abghwt67ot14nbg6';
 
   const [accessToken, setAccessToken] = useState('');
@@ -167,8 +167,6 @@ function App() {
 
   return (
     <>
-      <button onClick={connectSpotify}>Connect Spotify</button>
-
       <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
 
       {searchTerm ? <Filter searchTerm={searchTerm} 

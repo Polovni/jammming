@@ -7,8 +7,9 @@ function Filter({ searchTerm, token, onAddToPlayList, context, connectSpotify })
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!token) {
+        if (token == null) {
           console.log('Token not available');
+          connectSpotify();
           return;
         }
 
