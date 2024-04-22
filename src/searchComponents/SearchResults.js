@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import Track from '../songComponents/Track';
 
-function Filter({ searchTerm, token, onAddToPlayList, context }) {
+function Filter({ searchTerm, token, onAddToPlayList, context, connectSpotify }) {
   const [filteredJson, setFilteredJson] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!token) {
+          console.log('Token not available');
+          return;
+        }
+
+        // Check if the token is expired
+        const expiresAt = localStorage.getItem('spotifyTokenExpiresAt');
+        if (!expiresAt || new Date().getTime() > parseInt(expiresAt)) {
+          console.log('Token expired');
+          connectSpotify();
+          return;
+        }
+
         const query = 'https://api.spotify.com/v1/search?q=' + searchTerm + '&type=track&limit=20';
         const response = await fetch(query, {
           headers: {
             Authorization: 'Bearer ' + token
           }
         });
+
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+
         const data = await response.json();
         const tracks = data.tracks.items.map(item => ({
           id: item.id,

@@ -23,6 +23,9 @@ function App() {
   }, []);
 
   const connectSpotify = () => {
+    localStorage.removeItem('spotifyToken');
+    localStorage.removeItem('spotifyTokenExpiresAt');
+
     const authParams = new URLSearchParams({
       client_id: CLIENT_ID,
       redirect_uri: REDIRECT_URI,
@@ -38,7 +41,7 @@ function App() {
       const urlParams = new URLSearchParams(window.location.hash.substr(1));
       const token = urlParams.get('access_token');
       const tokenType = urlParams.get('token_type');
-      const expiresIn = urlParams.get('expires_in');
+      const expiresIn = Date.now() + parseInt(urlParams.get('expires_in')) * 1000; // Parse as integer
       const state = urlParams.get('state');
 
       console.log('Token:', token);
@@ -101,6 +104,7 @@ function App() {
       {searchTerm ? <Filter searchTerm={searchTerm} 
       token={accessToken}
       onAddToPlayList={handleAddToPlayList} 
+      connectSpotify={connectSpotify}
       context="searchResults" /> : 
       <p>Enter a search term.</p>}
 
