@@ -13,15 +13,15 @@ function Input({ token, onSearchSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="search">Search by Song Name, Artist or Album</label>
+    <form className="search-form" onSubmit={handleSubmit}>
       <input
         id="search"
         type="text"
         value={searchValue}
         onChange={handleChange}
+        className="search-input"
+        placeholder="Search by Song Name, Artist or Album"
       />
-      <button type="submit">Search</button>
     </form>
   );
 }

@@ -183,37 +183,49 @@ function App() {
         <h1>Ja<span className="highlight">mmm</span>ing</h1>
       </div>
 
-      <div className="profile">
-        {userData ? (
-          <div className="profile-info">
-            <img src={userData.images[0]?.url} alt="Profile" className="profile-picture" />
-            <div className="profile-text">
-              <h2>Hello "{userData.display_name}"</h2>
-              <h2>Account connected</h2>
+      <div className="container">
+        <div className="profile">
+          {userData ? (
+            <div className="profile-info">
+              <img src={userData.images[0]?.url} alt="Profile" className="profile-picture" />
+              <div className="profile-text">
+                <h2>Hello "{userData.display_name}"</h2>
+                <h2>Account connected</h2>
+              </div>
             </div>
-          </div>
-        ) : (
-          <button onClick={connectSpotify}>Connect Spotify</button>
-        )}
+          ) : (
+            <button onClick={connectSpotify}>Connect Spotify</button>
+          )}
+        </div>
+
+        <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
+
+        <div className="results">
+          {/* Conditionally render Filter or message */}
+          {searchTerm ? (
+            <Filter
+              searchTerm={searchTerm}
+              token={accessToken}
+              onAddToPlayList={handleAddToPlayList}
+              connectSpotify={connectSpotify}
+              context="searchResults"
+            />
+          ) : (
+            <p>Enter a search term.</p>
+          )}
+        </div>
+
+        <div className="playlist">
+          <PlayList
+            tracks={playList}
+            onRemoveFromPlayList={handleRemoveFromPlayList}
+            name={playlistName}
+            onChangePlaylistName={handleChangePlaylistName}
+            context="playlist"
+            onResetPlayList={handleResetPlayList}
+            onSavePlayList={handleSavePlayList} />
+        </div>
       </div>
-
-      <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
-
-      {searchTerm ? <Filter searchTerm={searchTerm} 
-      token={accessToken}
-      onAddToPlayList={handleAddToPlayList} 
-      connectSpotify={connectSpotify}
-      context="searchResults" /> : 
-      <p>Enter a search term.</p>}
-
-      <PlayList 
-      tracks={playList} 
-      onRemoveFromPlayList={handleRemoveFromPlayList} 
-      name={playlistName} 
-      onChangePlaylistName={handleChangePlaylistName} 
-      context="playlist"
-      onResetPlayList={handleResetPlayList} 
-      onSavePlayList={handleSavePlayList} />
     </>
   );
 }
