@@ -167,7 +167,13 @@ function App() {
 
   return (
     <>
-      <button onClick={connectSpotify}>Connect Spotify</button>
+      <div className="header">
+        <h1>Ja<span className="highlight">mmm</span>ing</h1>
+      </div>
+
+      <div className="profile">
+        <button onClick={connectSpotify}>Connect Spotify</button>
+      </div>
 
       <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
 

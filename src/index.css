@@ -11,3 +11,78 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+body {
+  background-color: #191414;
+  background-image: radial-gradient(rgb(207, 207, 207) 1px, transparent 1px);
+  background-size: 10px 10px;
+  color: white;
+}
+
+/* Container for the whole page */
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 32px;
+  padding: 0 160px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* Example styles for grid items */
+.grid-item {
+  background-color: #1DB954;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Container for the header */
+.header {
+  grid-column: span 12;
+  background-color: #1DB954;
+  padding: 20px;
+  text-align: center;
+  backdrop-filter: blur(2px) saturate(100%);
+    -webkit-backdrop-filter: blur(2px) saturate(100%);
+    background-color: rgba(29, 185, 84, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+/* Style for the heading */
+.header h1 {
+  font-size: 2.5em;
+  color: white;
+  margin: 0;
+}
+
+/* Specific style for "mmm" */
+.header h1 .highlight {
+  color: black;
+}
+
+.profile {
+  grid-column: 5 / span 4; /* Span 4 columns starting from column 5 */
+  display: flex;
+  justify-content: center; /* Center horizontally within its grid area */
+  align-items: center;     /* Center vertically within its grid area */
+  height: 100px;
+      /* Optional: adjust as needed for your design */
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #1DB954;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  backdrop-filter: blur(2px) saturate(100%);
+    -webkit-backdrop-filter: blur(2px) saturate(100%);
+    background-color: rgba(29, 185, 84, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+button:hover {
+  background-color: #1aa34a;
+}
