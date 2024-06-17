@@ -61,11 +61,38 @@ body {
 }
 
 .profile {
-  grid-column: 5 / span 4; /* Span 4 columns starting from column 5 */
+  margin: 20px auto;
   display: flex;
-  justify-content: center; /* Center horizontally within its grid area */
-  align-items: center;     /* Center vertically within its grid area */
-  height: 100px;
+  justify-content: center;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  padding: 10px;
+  backdrop-filter: blur(2px) saturate(100%);
+    -webkit-backdrop-filter: blur(2px) saturate(100%);
+    background-color: rgba(29, 185, 84, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.profile-picture {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-text {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.profile-text h2 {
+  margin: 0;
+  padding: 10px 0;
 }
 
 button {

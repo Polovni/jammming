@@ -185,10 +185,12 @@ function App() {
 
       <div className="profile">
         {userData ? (
-          <div>
-            <img src={userData.images[0]?.url} alt="Profile" width="50" height="50" />
-            <h2>{userData.display_name}</h2>
-            <h2>Account connected</h2>
+          <div className="profile-info">
+            <img src={userData.images[0]?.url} alt="Profile" className="profile-picture" />
+            <div className="profile-text">
+              <h2>Hello "{userData.display_name}"</h2>
+              <h2>Account connected</h2>
+            </div>
           </div>
         ) : (
           <button onClick={connectSpotify}>Connect Spotify</button>
