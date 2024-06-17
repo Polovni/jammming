@@ -14,11 +14,16 @@ function App() {
   const STATE = 'abghwt67ot14nbg6';
 
   const [accessToken, setAccessToken] = useState('');
+  const [userData, setUserData] = useState(null); // State to store user data
 
   useEffect(() => {
     const token = localStorage.getItem('spotifyToken');
-    if (token) {
+    const expiresAt = localStorage.getItem('spotifyTokenExpiresAt');
+    if (token && expiresAt && new Date().getTime() < parseInt(expiresAt)) {
       setAccessToken(token);
+      fetchUserData(token);
+    } else {
+      connectSpotify();
     }
   }, []);
 
@@ -36,26 +41,43 @@ function App() {
 
     const authUrl = `${AUTH_URL}?${authParams}`;
     window.location.href = authUrl;
+  };
 
+  const fetchUserData = async (token) => {
+    try {
+      const response = await fetch('https://api.spotify.com/v1/me', {
+        headers: {
+          Authorization: 'Bearer ' + token
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch user data');
+      }
+      const data = await response.json();
+      setUserData(data);  // Set user data in state
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  };
+
+  useEffect(() => {
     const handleRedirect = () => {
       const urlParams = new URLSearchParams(window.location.hash.substr(1));
       const token = urlParams.get('access_token');
-      const tokenType = urlParams.get('token_type');
       const expiresIn = Date.now() + parseInt(urlParams.get('expires_in')) * 1000; // Parse as integer
-      const state = urlParams.get('state');
 
-      console.log('Token:', token);
-      console.log('Token Type:', tokenType);
-      console.log('Expires In:', expiresIn);
-      console.log('State:', state);
+      if (token) {
+        localStorage.setItem('spotifyToken', token);
+        localStorage.setItem('spotifyTokenExpiresAt', expiresIn);
+        setAccessToken(token);
+        fetchUserData(token);
+      }
+    };
 
-      localStorage.setItem('spotifyToken', token);
-      localStorage.setItem('spotifyTokenExpiresAt', expiresIn);
-  };
-
-    handleRedirect();
-  };
-  
+    if (window.location.hash) {
+      handleRedirect();
+    }
+  }, []);
 
   // USE STATES
   const [searchTerm, setSearchTerm] = useState('');
@@ -69,11 +91,11 @@ function App() {
   const handleAddToPlayList = (track) => {
     const isTrackInPlaylist = playList.some((playlistTrack) => playlistTrack.id === track.id);
 
-    if(!isTrackInPlaylist) {
+    if (!isTrackInPlaylist) {
       setPlayList([...playList, track]);
     } else {
       console.log("Track Already In Playlist");
-    };
+    }
   };
 
   const handleRemoveFromPlayList = (trackToRemove) => {
@@ -87,27 +109,21 @@ function App() {
 
   const handleSavePlayList = async () => {
     try {
-      // Retrieve token and expiration timestamp from local storage
       const token = localStorage.getItem('spotifyToken');
       const expiresAt = localStorage.getItem('spotifyTokenExpiresAt');
-  
-      // Check if token is expired
+
       if (token && expiresAt) {
         const currentTime = new Date().getTime();
         if (currentTime >= parseInt(expiresAt)) {
-          // Token expired, redirect to connectSpotify function
           connectSpotify();
           return;
         }
       } else {
-        // Token or expiration timestamp not found, redirect to connectSpotify function
         connectSpotify();
         return;
       }
-  
-      // Continue with saving the playlist...
+
       console.log("TOKEN GOOD!");
-      // Step 1: Get user's Spotify ID
       const response = await fetch('https://api.spotify.com/v1/me', {
         headers: {
           Authorization: 'Bearer ' + token
@@ -119,8 +135,7 @@ function App() {
       console.log("USER DATA GOOD!");
       const userData = await response.json();
       const userId = userData.id;
-  
-      // Step 2: Create a new playlist
+
       const createPlaylistResponse = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
         method: 'POST',
         headers: {
@@ -137,8 +152,7 @@ function App() {
       }
       const playlistData = await createPlaylistResponse.json();
       const playlistId = playlistData.id;
-  
-      // Step 3: Add tracks to the new playlist
+
       const addTracksResponse = await fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playlistId}/tracks`, {
         method: 'POST',
         headers: {
@@ -146,24 +160,22 @@ function App() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          uris: playList.map(track => track.uri) // Array of track URIs to add to the playlist
+          uris: playList.map(track => track.uri)
         })
       });
       if (!addTracksResponse.ok) {
         throw new Error('Failed to add tracks to playlist');
       }
-  
-      // Playlist successfully created and tracks added
+
       console.log('Playlist created and tracks added successfully');
     } catch (error) {
       console.error('Error:', error.message);
     }
   };
-  
+
   const handleResetPlayList = () => {
     setPlayList([]);
   };
-
 
   return (
     <>
@@ -172,7 +184,15 @@ function App() {
       </div>
 
       <div className="profile">
-        <button onClick={connectSpotify}>Connect Spotify</button>
+        {userData ? (
+          <div>
+            <img src={userData.images[0]?.url} alt="Profile" width="50" height="50" />
+            <h2>{userData.display_name}</h2>
+            <h2>Account connected</h2>
+          </div>
+        ) : (
+          <button onClick={connectSpotify}>Connect Spotify</button>
+        )}
       </div>
 
       <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
