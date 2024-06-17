@@ -211,7 +211,7 @@ function App() {
               context="searchResults"
             />
           ) : (
-            <p>Enter a search term.</p>
+            <p className="results_p">Try searching for something...</p>
           )}
         </div>
 

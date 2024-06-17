@@ -144,7 +144,8 @@ button:hover {
 }
 
 .results h2 {
-  margin-top: 0;
+  margin-bottom: 15px;
+  margin-top: 5px;
 }
 
 .playlist {
@@ -165,7 +166,8 @@ button:hover {
 .playlist-name {
   display: inline-block; /* Ensures the input width adjusts based on content */
   position: relative;
-  margin-bottom: 10px; /* Adjust as needed */
+  margin-bottom: 10px;
+  margin-top: 0;
 }
 
 .playlist-name input[type="text"] {
@@ -183,10 +185,57 @@ button:hover {
   border-color: #1DB954; /* Change underline color on focus if needed */
 }
 
+.input-playlist-name {
+  font-weight: 600; /* Semi-bold font weight */
+}
+
+
 .action_button {
   padding: 5px 10px;
 }
 
-.track {
-  
+.track-item {
+  display: flex;
+  justify-content: space-between; /* Align items with space between */
+  align-items: center; /* Center items vertically */
+  padding: 10px 10px 10px 0px;
+  border-bottom: 1px solid white; /* Bottom border for each track item */
+}
+
+.track-info {
+  flex: 1; /* Take up remaining space */
+}
+
+.track-info h3 {
+  margin: 0;
+}
+
+.track-info p {
+  margin: 5px 0;
+  color: #ccc; /* Adjust color if needed */
+  font-weight: 600;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.action_button {
+  padding: 5px 10px;
+  margin-left: 10px;
+  background-color: #1DB954;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.action_button:hover {
+  background-color: #1aa34a; /* Adjust hover color if needed */
+}
+
+.results_p {
+  font-size: 1.5rem;
+  font-weight: 600;
 }

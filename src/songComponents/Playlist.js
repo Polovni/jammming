@@ -4,7 +4,7 @@ function PlayList({ tracks, onRemoveFromPlayList, name, onChangePlaylistName, co
     return (
         <div>
             <h2 className="playlist-name">
-                <input type="text" value={name} onChange={onChangePlaylistName} />
+                <input className="input-playlist-name" type="text" value={name} onChange={onChangePlaylistName} />
             </h2>
             {tracks && Array.isArray(tracks) && tracks.length > 0 ? (
             <Track tracks={tracks} onRemoveFromPlayList={onRemoveFromPlayList} context={context} />
