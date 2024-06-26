@@ -198,7 +198,7 @@ function App() {
           )}
         </div>
 
-        <Input token={accessToken} onSearchSubmit={handleSearchSubmit} />
+        <Input onSearchSubmit={handleSearchSubmit} />
 
         <div className="results">
           {/* Conditionally render Filter or message */}
