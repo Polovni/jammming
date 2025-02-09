@@ -9,7 +9,7 @@ function App() {
   // SPOTIFY API
   const AUTH_URL = 'https://accounts.spotify.com/authorize';
   const CLIENT_ID = '4d719dad5f594f1a90e37d494ae646b5';
-  const REDIRECT_URI = 'jammming-polovic.netlify.app';
+  const REDIRECT_URI = 'https://jammming-polovic.netlify.app/spotify';
   const SCOPE = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
   const STATE = 'abghwt67ot14nbg6';
 
